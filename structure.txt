@@ -1,0 +1,61 @@
+codes-arcin-site/
+│
+├─ index.html               — Root landing page. Edit: hero, USP, featured projects. Watch: use relative paths to components/assets.
+├─ 404.html                 — Simple fallback page. Edit: friendly message + link to index.
+├─ netlify.toml             — Netlify config (optional). Edit only for redirects/build settings.
+├─ README.md                — Project overview + deploy instructions. Add quick start + deploy steps.
+├─ .gitignore               — Ignore node_modules, .env, system files. Add /dist if you later build.
+│
+├─ pages/                   — Independent pages (each should include header/footer via loader).
+│  ├─ portfolio.html        — Full portfolio & case studies. Edit: pull data from data/portfolio.json.
+│  ├─ services.html         — Services & package details. Edit: services.json drives cards.
+│  ├─ about.html            — About + credentials + team. Add social links and press mentions.
+│  ├─ testimonials.html     — Client reviews listing. Edit: testimonials.json feed.
+│  └─ contact.html          — Contact + inquiry form + WhatsApp CTA. Important: wire form.js here.
+│
+├─ components/              — Reusable HTML fragments injected by loader.js.
+│  ├─ header.html           — Brand logo, nav, search (if any). Edit: include aria labels, mobile menu.
+│  ├─ footer.html           — Footer links, copyright, local business info.
+│  ├─ hero.html             — Hero block used on homepage (title, CTA, image). Make it data-driven.
+│  ├─ portfolio-card.html   — Single project card template (image, title, tags). Use <img loading="lazy">.
+│  ├─ service-card.html     — Single service/package card (title, price, CTA).
+│  ├─ testimonial-card.html — Testimonial markup (name, quote, project link).
+│  ├─ contact-form.html     — Contact form HTML only (inputs + submit). Hook to scripts/form.js.
+│  └─ whatsapp-widget.html  — Click-to-chat button markup (uses data/settings.json). Track clicks.
+│
+├─ data/                    — JSON data sources; drives rendering (no hard-coded content).
+│  ├─ settings.json         — Site-wide settings (brand name, city, phone, whatsapp, email). Edit first.
+│  ├─ portfolio.json        — Projects: id, title, images[], beforeAfter, categories, description.
+│  ├─ services.json         — Services array: id, title, priceRange, features.
+│  └─ testimonials.json     — Reviews: name, text, projectId, date, image.
+│
+├─ branding/                — Brand assets & quick style guide.
+│  ├─ logo.png              — Full logo (use for footer/marketing). Keep optimized.
+│  ├─ logo-small.png        — Small/logo mark for header (56×56 or SVG preferred).
+│  └─ palette.md            — Notes: hex values, fonts, spacing rules. Update as source of truth.
+│
+├─ assets/                  — Media and static resources.
+│  ├─ images/
+│  │  ├─ hero/              — Hero images (desktop, mobile). Use responsive sizes & webp.
+│  │  ├─ portfolio/         — Project images (before/after pairs). Keep consistent naming.
+│  │  ├─ services/          — Service thumbnails / icons.
+│  │  └─ testimonials/      — Client photos (small, compressed).
+│  ├─ icons/                — SVG icons (inline-friendly). Prefer SVG sprites.
+│  └─ fonts/                — Local font files if any (woff2 preferred). Otherwise use Google Fonts.
+│
+├─ styles/                  — CSS, organized by responsibility.
+│  ├─ base.css              — CSS reset + root variables (--brand-*, typography). Edit brand here.
+│  ├─ layout.css            — Page structure: header/footer/grid system, containers, breakpoints.
+│  ├─ components.css        — Buttons, cards, pills, forms, hero styles.
+│  ├─ pages.css             — Page-specific overrides (home, portfolio).
+│  └─ utils.css             — Utility classes (spacing, hide, visually-hidden), accessibility helpers.
+│
+├─ scripts/                 — Client-side JS separated by purpose.
+│  ├─ loader.js             — Component injector (replaces server includes). Keep robust relative-path logic.
+│  ├─ render.js             — Renders JSON -> DOM (maps portfolio/services -> templates). Keep pure DOM ops.
+│  ├─ tracking.js           — GA4 + Meta Pixel init + event helpers (announce(), trackClick()). Configure IDs via settings.json or env.
+│  └─ form.js               — Contact form handler: validation, submit (GSheet/AppScript or email API), success UI and GTM event push.
+│
+└─ tools/ (optional)        — Utility scripts you might add later.
+   ├─ img-opt/              — Scripts or readme for image optimization (tinyPNG workflow).
+   └─ deploy/               — Scripts or docs for Netlify/GitHub deploy steps.

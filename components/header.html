@@ -1,0 +1,33 @@
+<nav class="site-header" role="navigation" aria-label="Main" data-component="header">
+  <!-- Brand / Logo -->
+  <a class="brand" href="index.html">
+    <!-- full wordmark (replace file as needed) -->
+    <img src="branding/logo.jpeg" alt="Codes ArcIn logo" class="brand-logo" width="160" height="40">
+    <span class="brand-name">Codes ArcIn</span>
+  </a>
+
+  <!-- Quick actions (visible on mobile as quick CTAs) -->
+  <div class="nav-quick-actions" aria-hidden="false">
+    <a class="btn ghost-header nav-quick-quote" href="pages/contact.html">Get Quote</a>
+   
+    
+  </div>
+
+  <!-- Hamburger toggle (right side on mobile) -->
+  <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+    <svg width="22" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+  </button>
+
+  <!-- Full menu — inline on desktop, toggled on mobile -->
+  <div id="site-menu" class="site-menu" role="menu" aria-hidden="false">
+    <a role="menuitem" href="index.html">Home</a>
+    <a role="menuitem" href="pages/portfolio.html">Portfolio</a>
+    <a role="menuitem" href="pages/services.html">Services</a>
+    <a role="menuitem" href="pages/about.html">About</a>
+    <a role="menuitem" href="pages/testimonials.html">Testimonials</a>
+    <a role="menuitem" href="pages/contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- include shared behavior file (keeps logic out of HTML) -->
+<script src="../scripts/behavior.js" defer></script>

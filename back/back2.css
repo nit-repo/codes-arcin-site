@@ -1,0 +1,595 @@
+/* ===========================================================
+   Codes ArcIn — style.css (formatted + developer notes)
+   NOTE: I did NOT change any selectors, properties or values.
+   Only whitespace and comments were added to improve readability.
+   =========================================================== */
+
+/* ----------------------------------------------------------------
+   Design tokens (CSS custom properties)
+   - Centralized colors, spacing, radii, fonts, and transitions.
+   - Use these variables to theme or tweak spacing consistently.
+   ---------------------------------------------------------------- */
+:root{
+  --brand-primary:#3E322E;
+  --brand-secondary:#BDAFA7;
+  --brand-light:#F6EFE8;
+  --brand-dark:#221A17;
+  --brand-text:#3A2F2A;
+  --accent:#A67C52;
+
+  --max-width:1100px;
+  --space:16px;
+  --radius:8px;
+
+  --font-sans:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading-weight:700;
+  --font-body-weight:400;
+
+  --transition-fast:180ms;
+  --transition-mid:320ms;
+}
+
+/* ----------------------------------------------------------------
+   Reset & base typography
+   - box-sizing for predictable sizing
+   - font-smoothing for crisper text on some platforms
+   ---------------------------------------------------------------- */
+*{
+  box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+html,body{
+  height:100%;
+  margin:0;
+  padding:0;
+}
+body{
+  font-family:var(--font-sans);
+  font-weight:var(--font-body-weight);
+  color:var(--brand-text);
+  background:var(--brand-light);
+  line-height:1.45;
+  font-size:16px;
+}
+
+/* ----------------------------------------------------------------
+   Container
+   - centers content and applies horizontal gutters
+   ---------------------------------------------------------------- */
+.container{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:0 calc(var(--space)*1);
+}
+
+/* ----------------------------------------------------------------
+   Headings & helpers
+   - heading sizes use rem for scale relative to root font-size
+   ---------------------------------------------------------------- */
+h1,h2,h3{
+  color:var(--brand-dark);
+  margin:0 0 8px;
+  line-height:1.15;
+}
+h1{ font-size:1.6rem; font-weight:var(--font-heading-weight); }
+h2{ font-size:1.25rem; font-weight:600; }
+h3{ font-size:1rem;  font-weight:600; }
+
+.muted{ color:var(--brand-secondary); }
+.small{ font-size:.92rem; }
+.lead{ color:var(--brand-dark); font-size:1rem; margin-bottom:12px; }
+
+/* Links */
+a{ color:inherit; text-decoration:none; }
+a:not(.btn):hover,
+a:not(.btn):focus {
+  text-decoration: underline;
+}
+
+
+/* Image utility */
+.content-img{ max-width:100%; height:auto; display:block; }
+
+/* ----------------------------------------------------------------
+   Buttons
+   - .btn is primary; .btn.ghost is transparent / outline variant
+   - transitions use the --transition-fast token
+   ---------------------------------------------------------------- */
+.btn{
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:8px;
+  background:var(--brand-primary);
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  transition:transform var(--transition-fast),box-shadow var(--transition-fast);
+}
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(30,20,10,0.06);
+}
+.btn.ghost{
+    background: #ad3e3e00;
+    color: #3e322e;
+    border: 1px solid rgb(62 50 46);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Grid & alignment helpers */
+.grid{ display:grid; gap:12px; }
+.center{ text-align:center; }
+
+/* Reset image default (repeated later for defensive reasons too) */
+img{ display:block; max-width:100%; height:auto; }
+
+/* Kicker / small uppercase label */
+.kicker{
+  font-size:.85rem;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--brand-secondary);
+}
+
+/* ----------------------------------------------------------------
+   Header & navigation (mobile-first)
+   - initial header is light-themed; later there is a header override
+   ---------------------------------------------------------------- */
+.site-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:calc(var(--space)*0.75) 0;
+  background:var(--brand-light);
+  border-bottom:1px solid rgba(58,47,42,0.04);
+}
+
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  text-decoration:none;
+  color:var(--brand-primary);
+}
+
+.brand-logo{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  border-radius:6px;
+}
+
+.brand-name{
+  font-weight:700;
+  font-size:1.05rem;
+}
+
+.nav-links{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.nav-links a{
+  font-weight:500;
+  color:var(--brand-text);
+  padding:8px 6px;
+  border-radius:6px;
+}
+.nav-links a:focus{
+  outline:3px solid rgba(166,124,82,0.12);
+  outline-offset:3px;
+}
+
+/* ----------------------------------------------------------------
+   Hero / featured / sections
+   - mobile-first stacking via flex column and `order`
+   ---------------------------------------------------------------- */
+.hero{
+    padding-top: calc(var(--header-height, 25px) + 20px);
+    padding-bottom: 70px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* important to clip child */
+    }
+.hero .hero-card{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+  align-items:center;
+}
+.hero-copy{ order:1; }
+/* modified: make the existing .hero-image act as a full-bleed background
+   and place the hero text above it (no new classes) */
+
+/* NOTE: this snippet assumes the .hero element is or will be `position: relative;`
+   so the absolutely-positioned background stays inside the hero block. If .hero
+   is not positioned, the image will be positioned relative to the page. */
+
+.hero-image{
+  /* break out of any centered container and fill viewport width */
+  position: absolute;      /* sit behind/under the content of the hero */
+  inset: 0;                /* top:0; right:0; bottom:0; left:0; */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+
+  /* give it height so it becomes the visual background for the hero */
+  min-height: 60vh;        /* adjust to taste (e.g. 70vh / 100vh) */
+
+  z-index: -1;              /* ensure the image sits behind inline content that has z-index:auto */
+  overflow: hidden;
+  border-radius: 0;        /* remove any rounding on the full-bleed image */
+  background-color: transparent;
+}
+
+/* make the contained <img> cover the area like a CSS background */
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;    /* crop/scale to cover the box */
+  object-position: center center;
+  pointer-events: none; /* decorative only */
+  user-select: none;
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+
+/* Featured placeholder grid default (mobile) */
+.featured .placeholder{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+
+/* Sections */
+.section{  padding-top: 20px;
+  padding-bottom: 20px; }
+.section-head{ margin-bottom:12px; }
+
+/* Component placeholder — helps reduce CLS */
+.component-placeholder{
+  background:linear-gradient(90deg,rgba(255,255,255,0.6),rgba(255,255,255,0.9));
+  border-radius:6px;
+  min-height:32px;
+  width:100%;
+}
+
+/* Testimonials (mobile single column) */
+.testimonials-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+/* Footer */
+.site-footer{
+  padding:18px 0;
+  border-top:1px solid rgba(58,47,42,0.04);
+  background:var(--brand-light);
+}
+.footer-inner{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+/* Small-screen tweaks */
+@media (max-width:767px){
+  .brand-name{ font-size:1rem; }
+  .nav-links a{ font-size:.95rem; padding:6px; }
+}
+
+/* ----------------------------------------------------------------
+   Components: cards, portfolio, testimonials
+   ---------------------------------------------------------------- */
+.card{
+  background:#fff;
+  border-radius:var(--radius);
+  padding:12px;
+  box-shadow:0 6px 18px rgba(30,20,10,0.04);
+  overflow:hidden;
+}
+
+/* Portfolio & service cards */
+.portfolio-card .img,
+.service-card .img{
+  height:160px;
+  background:#eee;
+  border-radius:6px;
+  overflow:hidden;
+}
+.portfolio-card h3,
+.service-card h3{
+  font-size:1rem;
+  margin:10px 0 6px;
+  color:var(--brand-dark);
+}
+.price-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:8px;
+}
+
+/* Testimonial card */
+.testimonial-card{
+  background:#fff;
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(30,20,10,0.04);
+}
+.testimonial-card .quote{
+  font-style:italic;
+  margin:0 0 10px;
+  color:var(--brand-text);
+}
+.testimonial-card .meta{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  font-size:.95rem;
+  color:var(--brand-secondary);
+}
+
+/* Contact form */
+.contact-form{
+  background:#fff;
+  padding:16px;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(30,20,10,0.04);
+}
+.contact-form label{
+  display:block;
+  font-size:.95rem;
+  margin-bottom:6px;
+  color:var(--brand-dark);
+}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(30,20,10,0.06);
+  margin-bottom:12px;
+  font-size:1rem;
+}
+.contact-form textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+/* Social buttons */
+.social-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  border:1px solid rgba(58,47,42,0.06);
+  background:transparent;
+  color:var(--brand-primary);
+}
+.social-btn svg{ width:18px; height:18px; display:block; }
+
+/* Focus states (global) */
+:focus{
+  outline:3px solid rgba(166,124,82,0.12);
+  outline-offset:2px;
+}
+
+/* Small utilities */
+.kv{ font-weight:600; color:var(--brand-dark); }
+.visually-hidden{
+  position:absolute!important;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* Spacing helpers */
+.mt-8{ margin-top:8px; }
+.mt-12{ margin-top:12px; }
+.mb-12{ margin-bottom:12px; }
+
+/* Row helper */
+.row{ display:flex; gap:12px; align-items:center; }
+
+/* Placeholder shimmer (loading skeleton) */
+.placeholder-shimmer{
+  background:linear-gradient(90deg,rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 100%);
+  background-size:200% 100%;
+  animation:shimmer 1.2s linear infinite;
+}
+@keyframes shimmer{
+  0%{ background-position:200% 0; }
+  100%{ background-position:-200% 0; }
+}
+
+/* Alignment utilities */
+.right{ text-align:right; }
+.left{  text-align:left; }
+
+/* ----------------------------------------------------------------
+   Desktop enhancements toggled by `html.desktop` (JS-controlled)
+   - Render.js previously toggles html.desktop to enable wider layouts.
+   - These are additive: they apply on top of mobile-first rules.
+   ---------------------------------------------------------------- */
+html.desktop .hero .hero-card{
+  display:flex;
+  gap:24px;
+  align-items:center;
+  padding:28px 0;
+}
+html.desktop .hero-copy{ flex:1 1 55%; }
+html.desktop .hero-image{ flex:1 1 45%; }
+
+html.desktop .featured .placeholder{
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+html.desktop .testimonials-grid{
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+html.desktop h1{ font-size:2rem; }
+html.desktop h2{ font-size:1.5rem; }
+
+html.desktop .nav-links{ gap:16px; }
+html.desktop .brand-logo{ width:56px; height:56px; }
+
+html.desktop .footer-inner{ align-items:center; }
+
+/* Large-screen tweaks */
+@media (min-width:1400px){
+  :root{ --max-width:1300px; }
+  html.desktop h1{ font-size:2.2rem; }
+}
+
+/* ----------------------------------------------------------------
+   Header override & responsive menu (fixed overlay header)
+   - These rules intentionally override the earlier .site-header block
+   - Use header-specific CSS vars to avoid touching original tokens
+   ---------------------------------------------------------------- */
+:root{
+  --header-bg:#3E322E;
+  --header-text:#F6EFE8;
+  --header-height:64px;
+}
+
+.site-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:var(--header-height);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:var(--header-bg);
+  color:var(--header-text);
+  z-index:1200;
+  border-bottom:1px solid rgba(246,239,232,0.04);
+}
+
+/* Ensure brand text/logo remain visible in dark header */
+.site-header .brand-name{ color:var(--header-text); }
+.site-header .brand-logo{ color:var(--header-text); }
+
+/* Prevent content being hidden under fixed header on in-page anchors */
+html{ scroll-padding-top:var(--header-height); }
+
+/* Logo sizing tuned for fixed header */
+.brand-logo{ height:40px; width:auto; }
+
+/* Quick actions container in header (Get Quote, Testimonials, etc.) */
+.nav-quick-actions{ display:flex; gap:10px; align-items:center; }
+
+/* Ghost button tuned for header contrast */
+
+/* Hamburger/menu toggle (hidden on desktop by default) */
+.menu-toggle{
+  display:none;
+  background:transparent;
+  border:none;
+  padding:8px;
+  border-radius:8px;
+  color:var(--header-text);
+}
+
+/* Full menu container (inline for desktop) */
+.site-menu{ display:flex; gap:16px; align-items:center; }
+
+/* Mobile: hide inline menu and show hamburger */
+@media (max-width:767px){
+  .site-menu{ display:none; } /* hide full menu on mobile (no-js fallback will show) */
+  .nav-links{ display:none; } /* ensure legacy nav-links hidden if present */
+
+  .menu-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+  }
+
+  .nav-quick-actions{ display:flex; align-items:center; gap:8px; margin-right:8px; }
+
+  /* Mobile dropdown panel for the menu (hidden by default; shown when JS toggles aria-hidden) */
+  .site-menu{
+    position:absolute;
+    top:calc(var(--header-height) + 8px);
+    right:12px;
+    min-width:220px;
+    background:var(--header-bg);
+    border:1px solid rgba(246,239,232,0.04);
+    border-radius:10px;
+    padding:10px;
+    box-shadow:0 10px 30px rgba(30,20,10,0.08);
+    flex-direction:column;
+    gap:8px;
+    display:none; /* default hidden on mobile */
+  }
+
+  /* show when aria-hidden is toggled by JS */
+  .site-menu[aria-hidden="false"]{ display:flex; }
+
+  .site-menu a{ display:block; padding:10px 8px; border-radius:6px; }
+}
+
+/* Desktop: ensure hamburger and quick actions hidden and menu visible inline */
+@media (min-width:768px){
+  .menu-toggle{ display:none !important; }
+  .site-menu{
+    display:flex !important;
+    position:static;
+    box-shadow:none;
+    border:none;
+    padding:0;
+    gap:16px;
+  }
+  .site-menu a{ padding:0; }
+  .nav-quick-actions{ display:none } /* hide quick-actions on desktop */
+}
+
+/* Defensive: prevent overflow from large images/elements */
+img, .hero-image img, .card img{ max-width:100%; height:auto; display:block; }
+
+/* Accessibility: visible focus outlines for header controls */
+.menu-toggle:focus,
+.site-menu a:focus,
+.nav-quick-actions a:focus,
+.btn.ghost:focus{
+  outline:3px solid rgba(246,239,232,0.12);
+  outline-offset:2px;
+}
+
+
