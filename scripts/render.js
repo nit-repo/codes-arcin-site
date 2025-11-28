@@ -100,13 +100,32 @@
       // lightweight placeholder
       el.innerHTML = `<div style="height:24px;opacity:.08;background:#ddd;border-radius:4px;"></div>`;
 
-      // Try root-first then component locations (root-first patch applied)
-      const paths = [
-        `/${name}.html`,                    // root-level file (you moved header/footer here)
-        `${COMPONENT_DIR}/${name}.html`,
-        `../${COMPONENT_DIR}/${name}.html`,
-        `/${COMPONENT_DIR}/${name}.html`,
-      ];
+      // ----- repo-aware prefix logic -----
+function githubRepoPrefix() {
+  // If hosted on GitHub Pages (username.github.io) and there's a repo path segment,
+  // return '/<repo>' otherwise return empty string.
+  try {
+    const host = location.hostname || "";
+    const parts = location.pathname.split("/").filter(Boolean); // ["repo", "page.html"]
+    if (host.endsWith("github.io") && parts.length > 0) {
+      return "/" + parts[0]; // first path segment is the repo name
+    }
+  } catch (e) { /* ignore */ }
+  return "";
+}
+const REPO_PREFIX = githubRepoPrefix();
+// ----- end repo-aware prefix logic -----
+
+const paths = [
+  // look relative to current page first (no leading slash)
+  `${name}.html`,
+  `${COMPONENT_DIR}/${name}.html`,
+  `../${COMPONENT_DIR}/${name}.html`,
+  // try under repo prefix (useful for GitHub Pages deployed under /<repo>/)
+  `${REPO_PREFIX}/${name}.html`,
+  `${REPO_PREFIX}/${COMPONENT_DIR}/${name}.html`
+];
+
 
       const { html, url } = await tryPaths(paths);
       el.innerHTML = html || "";
