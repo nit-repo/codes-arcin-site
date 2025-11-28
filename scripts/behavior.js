@@ -117,19 +117,25 @@
   /****************************************************************
    * Register and auto-run initializers
    ****************************************************************/
+    /****************************************************************
+   * Register and auto-run initializers (non-destructive)
+   ****************************************************************/
   function runInitializers() {
-    // Add any future initializers here
-    initHeader(document);
-    // e.g. initHero(), initGallery() later...
+    // Try to init header now *only if* header DOM already exists.
+    // Do not mark header as initialized unless initHeader actually ran.
+    const hdrPresent = !!document.querySelector('[data-component="header"]') || !!document.querySelector('.site-header');
+    if (hdrPresent) initHeader(document);
+    // other inits could be added similarly but avoid forcing init when component not present
   }
 
-  // Execute once when script loads
+  // Execute once when script loads (safe / non-destructive)
   runInitializers();
 
-  // Expose API for manual init if needed (e.g., SPA re-inserted markup)
+  // Expose API for manual init (render.js will call this after injection)
   root.initComponent = function (name, context) {
     if (name === 'header') initHeader(context || document);
-    // add other names as added
+    // add other names as needed
   };
+
 
 })();

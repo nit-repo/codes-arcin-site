@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Testimonials — Codes ArcIn</title>
+
+  <!-- Styles (relative path from pages/) -->
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+
+  <!-- header injected by loader/render -->
+  <div data-include="header"></div>
+
+  <main class="site-main">
+    <!-- Page hero / intro -->
+    <section class="section">
+      <div class="container">
+        <header class="section-head">
+          <h1>Testimonials</h1>
+          <p class="muted small">Real feedback from clients — honest and recent projects in Chennai.</p>
+        </header>
+      </div>
+    
+
+    <!-- Full testimonials list -->
+    
+      <div class="container">
+        <div id="testimonials-list" class="testimonials-grid" aria-live="polite">
+          <!-- render.js should populate testimonial cards here -->
+          <!-- lightweight placeholder (improves perceived load) -->
+          <div class="component-placeholder placeholder-shimmer" style="height:120px;"></div>
+          <div class="component-placeholder placeholder-shimmer" style="height:120px;"></div>
+          <div class="component-placeholder placeholder-shimmer" style="height:120px;"></div>
+        </div>
+
+        <!-- optional CTA after testimonials -->
+        <div class="center mt-12">
+          <a class="btn" href="../pages/contact.html">Request a Quote</a>
+          <a class="btn ghost" href="mailto:hello@codesarcin.com">Email Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer injected -->
+  <div data-include="footer"></div>
+
+  <!-- Testimonial card template (render.js should clone this) -->
+  <template id="testimonial-card-template">
+    <article class="testimonial-card card" role="article">
+      <blockquote class="quote" data-field="quote"></blockquote>
+      <footer class="meta">
+        <div class="kv" data-field="name"></div>
+        <div class="muted small" data-field="meta"></div>
+      </footer>
+    </article>
+  </template>
+
+  <!-- Scripts (relative paths from pages/) -->
+  <script src="../scripts/loader.js" defer></script>
+  <script src="../scripts/render.js" defer></script>
+  <script src="../scripts/behavior.js" defer></script>
+</body>
+</html>
