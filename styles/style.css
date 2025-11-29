@@ -191,16 +191,15 @@ img{ display:block; max-width:100%; height:auto; }
    - mobile-first stacking via flex column and `order`
    ---------------------------------------------------------------- */
 .hero{
-    padding-top: calc(var(--header-height, 25px) + 20px);
+    padding-top: calc(var(--header-height) + 50px);
     padding-bottom: 20px;
     position: relative;
     width: 100%;
     max-width: 100%;
     overflow: hidden; /* important to clip child */
+    
     }
-    @media (min-width: 767px) {
-  .hero { min-height: 80vh; }
-}
+    
 
 .hero .hero-card{
   display:flex;
@@ -221,7 +220,7 @@ img{ display:block; max-width:100%; height:auto; }
   margin-right: -50vw;
   width: 100vw;
  /* give it height so it becomes the visual background for the hero */
-  min-height: 60vh;        /* adjust to taste (e.g. 70vh / 100vh) */
+         /* adjust to taste (e.g. 70vh / 100vh) */
 
   z-index: 0;              /* ensure the image sits behind inline content that has z-index:auto */
   overflow: hidden;
@@ -248,7 +247,7 @@ img{ display:block; max-width:100%; height:auto; }
 }
 
 /* Sections */
-.section{ padding-top: calc(var(--header-height, 25px) );
+.section{ padding-top: 20px;
   padding-bottom: 20px; }
 .section-head{ margin-bottom:12px; }
 

@@ -12,6 +12,7 @@
 :root{
   --brand-primary:#3E322E;
   --brand-secondary:#BDAFA7;
+  --brand-muted:#39221a;
   --brand-light:#F6EFE8;
   --brand-dark:#221A17;
   --brand-text:#3A2F2A;
@@ -61,6 +62,7 @@ body{
   max-width:var(--max-width);
   margin:0 auto;
   padding:0 calc(var(--space)*1);
+  padding-top: 5px;
 }
 
 /* ----------------------------------------------------------------
@@ -76,7 +78,7 @@ h1{ font-size:1.6rem; font-weight:var(--font-heading-weight); }
 h2{ font-size:1.25rem; font-weight:600; }
 h3{ font-size:1rem;  font-weight:600; }
 
-.muted{ color:var(--brand-secondary); }
+.muted{ color:var(--brand-muted); }
 .small{ font-size:.92rem; }
 .lead{ color:var(--brand-dark); font-size:1rem; margin-bottom:12px; }
 
@@ -101,7 +103,7 @@ a:not(.btn):focus {
   padding:10px 14px;
   border-radius:8px;
   background:var(--brand-primary);
-  color:#fff;
+  color:var(--brand-light);;
   font-weight:600;
   text-decoration:none;
   transition:transform var(--transition-fast),box-shadow var(--transition-fast);
@@ -113,10 +115,10 @@ a:not(.btn):focus {
 .btn.ghost{
     background: #ad3e3e00;
     color: #3e322e;
-    border: 1px solid rgb(62 50 46);
+    border: 3px solid rgb(62 50 46);
     padding: 8px 10px;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: 650;
 }
 
 /* Grid & alignment helpers */
@@ -165,6 +167,7 @@ img{ display:block; max-width:100%; height:auto; }
 .brand-name{
   font-weight:700;
   font-size:1.05rem;
+ 
 }
 
 .nav-links{
@@ -189,25 +192,24 @@ img{ display:block; max-width:100%; height:auto; }
    ---------------------------------------------------------------- */
 .hero{
     padding-top: calc(var(--header-height, 25px) + 20px);
-    padding-bottom: 70px;
+    padding-bottom: 20px;
     position: relative;
     width: 100%;
     max-width: 100%;
     overflow: hidden; /* important to clip child */
     }
+    @media (min-width: 767px) {
+  .hero { min-height: 80vh; }
+}
+
 .hero .hero-card{
   display:flex;
   flex-direction:column;
   gap:30px;
   align-items:center;
+  
 }
-.hero-copy{ order:1; }
-/* modified: make the existing .hero-image act as a full-bleed background
-   and place the hero text above it (no new classes) */
-
-/* NOTE: this snippet assumes the .hero element is or will be `position: relative;`
-   so the absolutely-positioned background stays inside the hero block. If .hero
-   is not positioned, the image will be positioned relative to the page. */
+.hero-copy{ order:1; z-index: 2; }
 
 .hero-image{
   /* break out of any centered container and fill viewport width */
@@ -218,32 +220,23 @@ img{ display:block; max-width:100%; height:auto; }
   margin-left: -50vw;
   margin-right: -50vw;
   width: 100vw;
-
-  /* give it height so it becomes the visual background for the hero */
+ /* give it height so it becomes the visual background for the hero */
   min-height: 60vh;        /* adjust to taste (e.g. 70vh / 100vh) */
 
-  z-index: -1;              /* ensure the image sits behind inline content that has z-index:auto */
+  z-index: 0;              /* ensure the image sits behind inline content that has z-index:auto */
   overflow: hidden;
   border-radius: 0;        /* remove any rounding on the full-bleed image */
   background-color: transparent;
 }
 
 /* make the contained <img> cover the area like a CSS background */
-.hero-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;    /* crop/scale to cover the box */
-  object-position: center center;
-  pointer-events: none; /* decorative only */
-  user-select: none;
-}
+
 
 .cta-row {
   display: flex;
   gap: 12px;
   justify-content: center;
-  margin-top: 50px;
+  
 }
 
 
@@ -255,7 +248,7 @@ img{ display:block; max-width:100%; height:auto; }
 }
 
 /* Sections */
-.section{  padding-top: 20px;
+.section{ padding-top: calc(var(--header-height, 25px) );
   padding-bottom: 20px; }
 .section-head{ margin-bottom:12px; }
 
